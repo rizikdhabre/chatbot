@@ -23,6 +23,10 @@ const io = new Server(server, {
   },
 });
 
+io.engine.on("connection_error", (err) => {
+  console.error(" Socket.IO engine error:", err);
+});
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -92,6 +96,6 @@ app.get("/", (req, res) => {
   res.send("scoket chatbot backend runing");
 });
 
-server.listen(PORT, () => {
- console.log(`Server running on port ${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(` Server listening on port ${PORT}`);
 });
