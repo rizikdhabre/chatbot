@@ -5,5 +5,5 @@ const BACKEND_URL = import.meta.env.PROD
   : "http://localhost:5000";
 
 export const socket = io(BACKEND_URL, {
-  transports: ["websocket"], 
+  withCredentials: false,
 });
