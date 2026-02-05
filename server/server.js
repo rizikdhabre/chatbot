@@ -5,10 +5,13 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 dotenv.config();
 import OpenAI from "openai";
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+}));
 app.use(express.json());
 
 /* HTTP SERVER when we use sockets ! (in this code we can do it without sockets but if i want  to improve anything in the FUTURE) */
@@ -16,8 +19,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
+    origin: "*",
   },
 });
 
@@ -87,7 +89,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("scoket cahtbot backend runing");
+  res.send("scoket chatbot backend runing");
 });
 
 server.listen(PORT, () => {
