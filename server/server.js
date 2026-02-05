@@ -3,16 +3,14 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
-dotenv.config();
 import OpenAI from "openai";
+dotenv.config();
+
+
+
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST"],
-}));
-app.use(express.json());
 
 /* HTTP SERVER when we use sockets ! (in this code we can do it without sockets but if i want  to improve anything in the FUTURE) */
 const server = http.createServer(app);
@@ -20,6 +18,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST"],
   },
 });
 
@@ -27,6 +26,8 @@ io.engine.on("connection_error", (err) => {
   console.error(" Socket.IO engine error:", err);
 });
 
+app.use(cors());
+app.use(express.json());
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
